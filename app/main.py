@@ -4,12 +4,11 @@ import os
 from dotenv import load_dotenv
 import faiss
 import shutil
-
 from app.utils.parser import extract_text, chunk_text, embed_chunks
 
 load_dotenv()
 
-OPENAI_API_KEY = os.getenv("OPEN_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 app = FastAPI()
 UPLOAD_DIR = "uploads"
