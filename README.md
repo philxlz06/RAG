@@ -5,7 +5,7 @@ This project implements a Retrieval-Augmented Generation (RAG) pipeline for inte
 
 Key features:
 
-Upload and parse PDF/TXT/DOCX files.
+Upload and parse PDF/TXT files.
 
 Break documents into text chunks and generate embeddings.
 
