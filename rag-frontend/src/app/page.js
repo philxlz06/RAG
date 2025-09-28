@@ -54,36 +54,41 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-black text-white">
-      <h1 className="text-4xl font-bold mb-10">📄 RAG Demo</h1>
-
+    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-background text-text font-sans">
+      <h1 className="text-2xl font-semibold tracking-tight mb-6"> RAG </h1>
+      <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+    Retrieval-Augmented Generation (RAG) enhances AI by combining 
+    large language models with your own data. Upload documents and 
+    ask questions to get accurate, context-aware responses grounded 
+    in real information.
+  </p>
       {/* File upload */}
-      <div className="mb-6 flex flex-col items-center">
+      <div className="mb-4 flex flex-col items-center gap-2 w-full max-w-md">
         <input
           type="file"
           onChange={(e) => setFile(e.target.files[0])}
-          className="mb-3 text-sm text-gray-300"
+          className="w-full border border-border rounded px-3 py-2 text-sm text-text"
         />
         <button
           onClick={handleUpload}
-          className="px-6 py-2 bg-white text-black rounded-lg font-medium hover:bg-gray-200 transition"
+          className="w-full bg-black text-white py-2 rounded text-sm hover:bg-gray-800 transition-colors"
         >
           Upload File
         </button>
       </div>
 
       {/* Query input */}
-      <div className="mb-6 flex items-center">
+      <div className="mb-4 flex flex-col items-center gap-2 w-full max-w-md">
         <input
           type="text"
           placeholder="Ask a question..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="border border-gray-600 bg-black text-white px-3 py-2 rounded-lg w-72 focus:outline-none focus:ring-2 focus:ring-white"
+          className="w-full border border-border rounded px-3 py-2 text-sm text-text"
         />
         <button
           onClick={handleQuery}
-          className="ml-3 px-6 py-2 bg-white text-black rounded-lg font-medium hover:bg-gray-200 transition"
+          className="w-full bg-black text-white py-2 rounded text-sm hover:bg-gray-800 transition-colors"
         >
           Ask
         </button>
@@ -91,9 +96,9 @@ export default function Home() {
 
       {/* Response */}
       {response && (
-        <div className="mt-8 p-6 border border-gray-700 rounded-lg w-full max-w-2xl bg-gray-900">
-          <h2 className="font-semibold mb-3 text-lg">Response:</h2>
-          <p className="text-gray-200">{response}</p>
+        <div className="mt-6 p-4 border border-border rounded w-full max-w-md bg-surface">
+          <h2 className="font-semibold mb-2">Response:</h2>
+          <p className="text-sm">{response}</p>
         </div>
       )}
     </main>
