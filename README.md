@@ -111,6 +111,4 @@ Scalability: Can extend to multiple documents, larger LLMs, or cloud vector data
 ### Sample Query Response
 ![RAG8](app/assets/RAG8.png)
 
-### PDF Previews
-![PDF Page1](app/assets/PDF_Page1.png)
-![PDF Page2](app/assets/PDF_Page2.png)
+
