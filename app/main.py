@@ -1,16 +1,30 @@
-from fastapi import FastAPI, File, UploadFile, Form
+from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 import os
 from dotenv import load_dotenv
 import faiss
 import shutil
 from app.utils.parser import extract_text, chunk_text, embed_chunks
+from openai import OpenAI
 
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 app = FastAPI()
+
+# Enable CORS so frontend can call backend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
@@ -18,6 +32,12 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 embedding_dim = 384
 index = faiss.IndexFlatL2(embedding_dim)
 text_chunks_store = []
+
+# Pydantic model for JSON query
+
+
+class QueryRequest(BaseModel):
+    query: str
 
 
 @app.get("/")
@@ -53,7 +73,9 @@ async def upload_file(file: UploadFile = File(...)):
 
 
 @app.post("/query")
-async def query(text: str = Form(...)):
+async def query_endpoint(request: QueryRequest):
+    text = request.query
+
     if len(text_chunks_store) == 0:
         return JSONResponse({"error": "no documents uploaded yet."}, status_code=400)
 
@@ -61,12 +83,10 @@ async def query(text: str = Form(...)):
     D, I = index.search(query_embedding, k=3)
     relevant_chunks = [text_chunks_store[i] for i in I[0] if i != -1]
 
-    prompt = f"Answer the question using thr following context: \n\n"
+    prompt = f"Answer the question using the following context:\n\n"
     prompt += "\n--\n".join(relevant_chunks)
     prompt += f"\n\nQuestion: {text}\nAnswer:"
 
-    from openai import OpenAI
-    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
@@ -77,6 +97,6 @@ async def query(text: str = Form(...)):
 
     return JSONResponse({
         "query": text,
-        "answer": answer,
+        "response": answer,
         "sources": relevant_chunks
     })
