@@ -54,36 +54,36 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8">
-      <h1 className="text-3xl font-bold mb-6">📄 RAG Demo</h1>
+    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-black text-white">
+      <h1 className="text-4xl font-bold mb-10">📄 RAG Demo</h1>
 
       {/* File upload */}
-      <div className="mb-4">
+      <div className="mb-6 flex flex-col items-center">
         <input
           type="file"
           onChange={(e) => setFile(e.target.files[0])}
-          className="mb-2"
+          className="mb-3 text-sm text-gray-300"
         />
         <button
           onClick={handleUpload}
-          className="px-4 py-2 bg-blue-600 text-white rounded"
+          className="px-6 py-2 bg-white text-black rounded-lg font-medium hover:bg-gray-200 transition"
         >
           Upload File
         </button>
       </div>
 
       {/* Query input */}
-      <div className="mb-4">
+      <div className="mb-6 flex items-center">
         <input
           type="text"
           placeholder="Ask a question..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="border px-2 py-1 rounded w-64"
+          className="border border-gray-600 bg-black text-white px-3 py-2 rounded-lg w-72 focus:outline-none focus:ring-2 focus:ring-white"
         />
         <button
           onClick={handleQuery}
-          className="ml-2 px-4 py-2 bg-green-600 text-white rounded"
+          className="ml-3 px-6 py-2 bg-white text-black rounded-lg font-medium hover:bg-gray-200 transition"
         >
           Ask
         </button>
@@ -91,9 +91,9 @@ export default function Home() {
 
       {/* Response */}
       {response && (
-        <div className="mt-6 p-4 border rounded w-full max-w-xl">
-          <h2 className="font-semibold mb-2">Response:</h2>
-          <p>{response}</p>
+        <div className="mt-8 p-6 border border-gray-700 rounded-lg w-full max-w-2xl bg-gray-900">
+          <h2 className="font-semibold mb-3 text-lg">Response:</h2>
+          <p className="text-gray-200">{response}</p>
         </div>
       )}
     </main>
